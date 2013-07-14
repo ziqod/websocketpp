@@ -83,12 +83,7 @@ public:
     }
     
     std::string header(const std::string& key) const {
-        header_list::const_iterator h = m_headers.find(key);
-        if (h != m_headers.end()) {
-            return h->second;
-        }
-
-        h = m_headers.find(tolower(key));
+        header_list::const_iterator h = m_headers.find(tolower(key));
         
         if (h == m_headers.end()) {
             return "";
@@ -102,18 +97,18 @@ public:
     void add_header(const std::string &key, const std::string &val) {
         // TODO: prevent use of reserved headers?
         if (this->header(key) == "") {
-            m_headers[key] = val;
+            m_headers[tolower(key)] = val;
         } else {
-            m_headers[key] += ", " + val;
+            m_headers[tolower(key)] += ", " + val;
         }
     }
     
     void replace_header(const std::string &key, const std::string &val) {
-        m_headers[key] = val;
+        m_headers[tolower(key)] = val;
     }
     
     void remove_header(const std::string &key) {
-        m_headers.erase(key);
+        m_headers.erase(tolower(key));
     }
 protected:
     bool parse_headers(std::istream& s) {
